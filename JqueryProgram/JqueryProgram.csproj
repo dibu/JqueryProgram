@@ -70,6 +70,7 @@
     <Content Include="index.aspx" />
     <Content Include="index.html" />
     <Content Include="scipts\DynamicElements.js" />
+    <Content Include="scipts\EmployeeGridView.js" />
     <Content Include="scipts\index.js" />
     <Content Include="scipts\jquery-3.6.0.js" />
     <Content Include="Web.config" />
