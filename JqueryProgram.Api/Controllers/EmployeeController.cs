@@ -82,13 +82,13 @@ namespace JqueryProgram.Api.Controllers
         }
 
         [HttpPost("TestStringData")]
-        public async Task<string> TestStringData() {
+        public async Task<Employee> TestStringData() {
             using (StreamReader reader = new StreamReader(Request.Body,Encoding.UTF8)) {
                 string postedData = await reader.ReadToEndAsync();
 
                 string x = postedData;
             }
-            return  "";
+            return  new Employee();
         }
 
         private List<Employee> GetEmployees() {
