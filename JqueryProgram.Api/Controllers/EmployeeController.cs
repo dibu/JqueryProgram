@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using JqueryProgram.Api.Model;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Text;
+
 namespace JqueryProgram.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -42,6 +44,7 @@ namespace JqueryProgram.Api.Controllers
             bool isSaved = false;
             List<Employee> empList = GetEmployees();
             var selectedEmp = empList.Where(e => e.Id == employee.Id).FirstOrDefault();
+            selectedEmp.EmpId = employee.EmpId;
             selectedEmp.Name = employee.Name;
             selectedEmp.Email = employee.Email;
             selectedEmp.Designation = employee.Designation;
@@ -68,6 +71,26 @@ namespace JqueryProgram.Api.Controllers
             designations.Add("Deliver manager");
             return designations;
         }
+
+        [HttpGet("DeleteRecord")]
+        public bool DeleteRecord(int empId) {
+            bool isSaved = false;
+            List<Employee> empList = GetEmployees();
+            var exceptList = empList.Where(c => c.Id != empId).ToList();
+            SaveChanges(JsonConvert.SerializeObject(exceptList), ref isSaved);
+            return isSaved;
+        }
+
+        [HttpPost("TestStringData")]
+        public async Task<string> TestStringData() {
+            using (StreamReader reader = new StreamReader(Request.Body,Encoding.UTF8)) {
+                string postedData = await reader.ReadToEndAsync();
+
+                string x = postedData;
+            }
+            return  "";
+        }
+
         private List<Employee> GetEmployees() {
             List<Employee> emp = null;
             using (StreamReader reader = new StreamReader(this.GetDBPath))

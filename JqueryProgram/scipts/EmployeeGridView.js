@@ -15,14 +15,15 @@
             $.each(firstElement, function (key, value) {
                 html.push('<th>' + key + '</th>');
             });
-            html.push('<td>Action</td>');
+            html.push('<th>Action</th>');
             html.push('</tr>');
             $(data).each(function (idx, d) {
                 html.push('<tr>');
                 $.each(d, function (k, v) {
                     html.push('<td>' + v + '</td>');
                 }); 
-                html.push('<td><button type="button" onclick="GridView.eidtClick(this,\''+ d.id + '\');">Edit</button></td>');
+                html.push('<td><button type="button" onclick="GridView.eidtClick(this,\'' + d.id + '\');">Edit</button>');
+                html.push('<button type="button" onclick="GridView.deleteClick(this,\'' + d.id + '\');">Delete</button></td>');
                 html.push('</tr>');
             })
             html.push('</table>');
@@ -49,13 +50,15 @@
             $(ref).html('Save');
         } else {
             var tds = $(ref).parent().siblings();
+            var empdId = $(tds).eq('1').html();
             var name = $(tds).eq('2').find('input[type="text"]').val();
             var email = $(tds).eq('3').find('input[type="text"]').val();
             var phone = $(tds).eq('5').find('input[type="text"]').val();
             var designation = $(tds).eq('4').find('select').find('option:selected').val();
 
             var employee = {
-                'Id' : parseInt(id),
+                'Id': parseInt(id),
+                'EmpId': empdId,
                 'Name': name,
                 'Email': email,
                 'Designation': designation,
@@ -65,6 +68,17 @@
             GridView.saveEmployee(employee, ref);
         }
         
+    },
+    deleteClick: function (ref, id) {
+        var confirm = window.confirm('Are you sure want to delete?');
+        if (confirm) {
+            $.get("http://localhost:21117/api/employee/DeleteRecord?empId=" + id, function (data) {
+                if (data) {
+                    alert('Record deleted successfully');
+                    GridView.populateGridView();
+                }
+            });
+        }
     },
     getDesignations: function () {
         $.get("http://localhost:21117/api/employee/GetDesignations", function (data) {
@@ -87,6 +101,7 @@
                     $(ref).html('Edit');
 
                     var tds = $(ref).parent().siblings();
+                    $(tds).eq('1').html(obj.EmpId);
                     $(tds).eq('2').html(obj.Name);
                     $(tds).eq('3').html(obj.Email);
                     $(tds).eq('5').html(obj.Phone);
