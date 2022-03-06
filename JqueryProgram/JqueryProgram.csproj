@@ -67,8 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DefferedTest.aspx" />
     <Content Include="index.aspx" />
     <Content Include="index.html" />
+    <Content Include="scipts\DefferedTest.js" />
     <Content Include="scipts\DynamicElements.js" />
     <Content Include="scipts\EmployeeGridView.js" />
     <Content Include="scipts\index.js" />
@@ -76,6 +78,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefferedTest.aspx.cs">
+      <DependentUpon>DefferedTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DefferedTest.aspx.designer.cs">
+      <DependentUpon>DefferedTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
