@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    DeferredTest.createDropDown(DeferredTest.populateDropDown);
+    //DeferredTest.createDropDown(DeferredTest.populateDropDown);
+    DeferredTest.populateDynamicDropDown()
 });
 
 var DeferredTest = {
@@ -26,8 +27,40 @@ var DeferredTest = {
         });
      
     },
-
+    isHtmlBinded: function (controlId) {
+        var deffered = $.Deferred();
+        var counter = setInterval(function () {
+            if ($(controlId).length > 0) {
+                deffered.resolve('done');
+                console.log('Timer @ ' + new Date().getTime());
+                clearInterval(counter);
+            }
+        }, 200);
+        return deffered;
+    },
+    populateDynamicDropDown: function () {
+        var response = DeferredTest.isHtmlBinded('#ddl_data1')
+        var d = $.when(response)
+        d.done(function (dd) {
+            if (dd == 'done') {
+                $.get("http://localhost:21117/api/employee/GetDesignations", function (data) {
+                    if (data.length > 0) {
+                        var designationsHTML = [];
+                        $(data).each(function (i, v) {
+                            designationsHTML.push('<option value=' + v + '>' + v + '</option>');
+                        });
+                        $('#ddl_data1').html(designationsHTML.join());
+                    }
+                });
+            } 
+      
+        })
+        
+    },
     setDesignation: function (designation) {
         $('#drop-designation').val(designation);
+    },
+    addDropDown: function () {
+        $("#container").append('<select id="ddl_data1"></select>');
     }
 }

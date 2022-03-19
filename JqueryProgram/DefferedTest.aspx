@@ -10,6 +10,10 @@
     <form id="form1" runat="server">
         <div id="maindiv">
         </div>
+        <button type="button" id="btngenerate" onclick="DeferredTest.addDropDown();">Generate</button>
+        <div id="container">
+           
+        </div>
     </form>
   <script src="scipts/jquery-3.6.0.js"></script>
   <script src="scipts/DefferedTest.js"></script>
